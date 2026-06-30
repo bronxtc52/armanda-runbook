@@ -1,0 +1,22 @@
+{
+  "_comment": "Шаблон отслеживания прогресса. Codex копирует его в state/progress.json и обновляет по ходу. Статусы: pending | in_progress | done | blocked.",
+  "learner": {
+    "name": null,
+    "started_at": null,
+    "arch": null,
+    "macos": null
+  },
+  "phases": [
+    { "id": "00-preflight",    "title": "Проверка машины",          "status": "pending", "notes": "" },
+    { "id": "01-macbook-setup","title": "Настройка MacBook",        "status": "pending", "notes": "" },
+    { "id": "02-foundation",   "title": "Терминал + Homebrew",      "status": "pending", "notes": "" },
+    { "id": "03-git-github", "title": "Git и GitHub",               "status": "pending", "notes": "" },
+    { "id": "04-ai-helpers", "title": "Node + Claude Code + Codex", "status": "pending", "notes": "" },
+    { "id": "05-flutter",    "title": "Flutter + мобильные цеха",   "status": "pending", "notes": "" },
+    { "id": "06-first-win",  "title": "Первая победа",              "status": "pending", "notes": "" },
+    { "id": "07-checkpoint", "title": "Чек-поинт Фазы 0",           "status": "pending", "notes": "" }
+  ],
+  "appendix": [
+    { "id": "99-appendix-backend", "title": "Python/venv + Railway (по требованию)", "status": "pending", "notes": "Не часть первого маршрута. Только когда дойдёт до Фазы 2." }
+  ]
+}
