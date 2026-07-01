@@ -90,10 +90,21 @@ append_line_once() {
 
 # ----- Взаимодействие с человеком -------------------------------------------
 
+# _runner_emit <тип> [kind=...] — машинный маркер для агента-раннера.
+# Печатается ТОЛЬКО когда скрипт запущен под раннером (RUNNER_PTY=1) — обычный
+# человек, запускающий runbook напрямую, этих строк не видит. Раннер ловит их
+# как события need_human / need_secret вместо хрупкого парсинга русского текста.
+#   типы: NEED_HUMAN | NEED_SECRET | NEED_INPUT
+_runner_emit() {
+  [ "${RUNNER_PTY:-}" = "1" ] || return 0
+  printf '@@RUNNER:%s@@\n' "$*"
+}
+
 # ask_yes_no "вопрос" — вернуть 0 на «да». Если ввода нет (не-интерактивно),
 # безопасно считаем «нет» и предупреждаем — никаких тихих авто-«да».
 ask_yes_no() {
   local prompt="$1" reply
+  _runner_emit "NEED_INPUT kind=yesno prompt=$prompt"
   if [ ! -t 0 ]; then
     warn "Нет интерактивного ввода — считаю ответ «нет»: $prompt"
     return 1
@@ -107,6 +118,7 @@ ask_yes_no() {
 # в аккаунт. Скрипт не делает это за человека — он ждёт.
 pause_for_human() {
   printf '\n'
+  _runner_emit "NEED_HUMAN prompt=$1"
   warn "СЕЙЧАС НУЖНО ДЕЙСТВИЕ ЧЕЛОВЕКА (скрипт не делает это сам):"
   printf '   %s\n' "$1"
   if [ -t 0 ]; then
@@ -119,6 +131,7 @@ pause_for_human() {
 
 # warn_password — предупредить, что Mac сейчас попросит пароль.
 warn_password() {
+  _runner_emit "NEED_SECRET kind=mac_password"
   warn "Сейчас Mac может попросить пароль от компьютера."
   note "Когда печатаешь пароль в Терминале — символы НЕ видны. Это нормально."
   note "Введи пароль и нажми Enter."
