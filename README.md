@@ -23,8 +23,9 @@ Homebrew · `tree` · Git · GitHub CLI (`gh`) · Node/npm · **Claude Code** ·
 ## Структура
 ```
 course-setup-runbook/
-  README.md · FOR-CODEX.md · INDEX.md · TROUBLESHOOTING.md
+  README.md · FOR-CODEX.md · RITUALS.md · INDEX.md · TROUBLESHOOTING.md
   scripts/lib.sh                  # общие функции (лог, проверки, идемпотентность, детект чипа)
+  03-git-github/setup-secret-guard.sh  # сторож секретов (gitleaks + глобальный pre-commit)
   state/progress-template.json    # шаблон прогресса (Codex копирует в progress.json)
   00-preflight/                   # осмотр машины (read-only)
   01-macbook-setup/               # настройка Mac: Finder, сон, клавиатура, безопасность, Dock
