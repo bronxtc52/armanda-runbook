@@ -45,11 +45,13 @@ if gh auth status >/dev/null 2>&1; then
   ok "Ты уже вошёл в GitHub — повторный вход не нужен."
 else
   log "Нужен аккаунт GitHub. Если его ещё нет — заведи бесплатно на https://github.com/signup"
-  pause_for_human "Сейчас откроется браузер для входа в GitHub. Выбери GitHub.com, протокол HTTPS, вход через браузер и подтверди. Готов?"
-  # Официальный браузерный вход. Без секретных токенов вручную.
-  gh auth login --web || {
+  pause_for_human "Сейчас откроется браузер для входа в GitHub — просто подтверди вход в своём браузере. Готов?"
+  # Официальный браузерный вход. Hostname и протокол заданы флагами, чтобы gh
+  # не задавал новичку интерактивных вопросов в Терминале.
+  gh auth login --hostname github.com --git-protocol https --web || {
     warn "Вход не завершился. Это часто бывает с первого раза."
-    note "Запусти этот скрипт снова или выполни вручную: gh auth login --web"
+    note "Запусти этот скрипт снова или выполни вручную:"
+    note "gh auth login --hostname github.com --git-protocol https --web"
     exit 1
   }
 fi
