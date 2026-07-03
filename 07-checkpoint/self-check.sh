@@ -37,7 +37,7 @@ check "Claude Code доступен (claude)"              command -v claude
 check "Codex доступен (codex)"                     command -v codex
 check "Flutter доктор запускается (flutter doctor)" bash -c 'flutter doctor'
 check "Учебный проект существует"                  test -f "$APP_DIR/pubspec.yaml"
-check "В проекте есть коммит"                       bash -c "git -C '$APP_DIR' rev-parse HEAD"
+check "В проекте есть коммит (весь проект под Git)" bash -c "git -C '$APP_DIR' rev-parse HEAD && [ \"\$(git -C '$APP_DIR' ls-files | wc -l)\" -gt 20 ]"
 check "Проект привязан к GitHub"                    bash -c "git -C '$APP_DIR' remote get-url origin"
 
 step "Итог"
