@@ -37,12 +37,17 @@ step "Setup Wizard (нужно открыть программу один раз
 pause_for_human "Открой «Android Studio» (через Spotlight: Cmd+Пробел → Android Studio). Пройди Setup Wizard со стандартными настройками — он докачает Android SDK, Platform-Tools и эмулятор. Когда мастер закончит и появится стартовый экран — продолжай."
 
 step "Лицензии Android"
-if has_cmd flutter; then
+if ! has_cmd flutter; then
+  warn "flutter не найден — пропускаю лицензии Android. Сначала установи Flutter (install-flutter.sh), потом запусти: flutter doctor --android-licenses"
+elif ! has_cmd sdkmanager && [ ! -d "$HOME/Library/Android/sdk/cmdline-tools" ]; then
+  # Без Android SDK команда лицензий уходит в ошибку с непонятным текстом.
+  warn "Android SDK ещё не установлен — пропускаю приём лицензий."
+  note "Открой Android Studio и доведи Setup Wizard до конца (он докачает Android SDK и Command-line Tools)."
+  note "После этого повтори приём лицензий: flutter doctor --android-licenses"
+else
   log "Принимаю лицензии Android. На каждый вопрос отвечай  y  (если согласен)."
   note "Если команда напишет, что лицензий нет/уже приняты — это нормально."
   flutter doctor --android-licenses || warn "Часть лицензий не принялась. Можно повторить позже: flutter doctor --android-licenses"
-else
-  warn "flutter не найден — пропускаю лицензии Android. Сначала установи Flutter (install-flutter.sh), потом запусти: flutter doctor --android-licenses"
 fi
 
 step "Проверка"

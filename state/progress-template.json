@@ -1,5 +1,6 @@
 {
   "_comment": "Шаблон отслеживания прогресса. Codex копирует его в state/progress.json и обновляет по ходу. Статусы: pending | in_progress | done | blocked.",
+  "runbook_version": "0.1.0",
   "learner": {
     "name": null,
     "started_at": null,

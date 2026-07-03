@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: shellcheck + bash -n
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - name: bash -n (синтаксис всех скриптов)
+        run: |
+          fail=0
+          while IFS= read -r -d '' f; do
+            bash -n "$f" || fail=1
+          done < <(find . -path ./.git -prune -o -name '*.sh' -print0)
+          exit $fail
+      - name: shellcheck
+        run: |
+          fail=0
+          while IFS= read -r -d '' f; do
+            shellcheck "$f" || fail=1
+          done < <(find . -path ./.git -prune -o -name '*.sh' -print0)
+          exit $fail
+
+  test:
+    name: bats unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install bats-core
+        run: sudo apt-get update && sudo apt-get install -y bats
+      - name: Run bats
+        run: bats tests/
+
+  smoke:
+    name: smoke check-system (macOS)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run read-only system check
+        run: bash 00-preflight/check-system.sh
