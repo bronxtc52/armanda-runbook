@@ -39,19 +39,38 @@ else
 fi
 
 step "Шаг 2. Игрушечный iPhone (симулятор)"
-log "Открываю iOS Simulator."
+log "Открываю iOS Simulator и жду, пока Flutter его увидит (до ~1,5 минут)."
 open -a Simulator || warn "Не удалось открыть Simulator. Убедись, что Xcode установлен (см. 05-flutter/)."
+
+# Без этого ожидания flutter run может не найти iPhone и запустить приложение
+# не там (например, окном macOS) или задать новичку вопрос про выбор устройства.
+FOUND_IPHONE=0
+for _ in $(seq 1 18); do
+  if (cd "$APP_DIR" && flutter devices 2>/dev/null | grep -qi 'iphone'); then
+    FOUND_IPHONE=1
+    break
+  fi
+  sleep 5
+done
 
 step "Шаг 3. Какие устройства видит Flutter"
 ( cd "$APP_DIR" && flutter devices ) || true
 
-step "Шаг 4. Запуск приложения"
-log "Сейчас запущу приложение на симуляторе. Первая сборка может идти долго — это нормально."
+step "Шаг 4. Запуск приложения на симуляторе iPhone"
+if [ "$FOUND_IPHONE" -ne 1 ]; then
+  err "Симулятор iPhone так и не появился в списке устройств."
+  note "1) Посмотри на экран: открылся ли Simulator и виден ли в нём iPhone."
+  note "2) Если Simulator пустой: меню File → Open Simulator → iOS → любой iPhone."
+  note "3) Потом запусти этот скрипт снова — или вручную:"
+  note "   cd $APP_DIR && flutter run -d iPhone"
+  exit 1
+fi
+log "Запускаю приложение именно на симуляторе iPhone. Первая сборка может идти долго — это нормально."
 note "Когда приложение откроется — нажми кнопку  +  на экране телефона: число должно расти."
 note "Чтобы остановить приложение — нажми  q  в этом окне Терминала."
 mark_step "06-first-win:created"
 note ""
 note "Запускаю flutter run… (управление переходит к Flutter)"
-# exec: отдаём окно живому процессу flutter run. Это и есть «первая победа».
+# exec: отдаём окно живому процессу flutter run — на конкретном устройстве.
 cd "$APP_DIR"
-exec flutter run
+exec flutter run -d iPhone
