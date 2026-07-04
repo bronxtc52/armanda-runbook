@@ -47,7 +47,7 @@ else
   warn "Команда выполнится через sudo (нужны системные права):"
   note "sudo sh -c 'xcode-select -s /Applications/Xcode.app/Contents/Developer && xcodebuild -runFirstLaunch'"
   pause_for_human "Готов ввести пароль от Mac для системной настройки Xcode?"
-  sudo sh -c 'xcode-select -s /Applications/Xcode.app/Contents/Developer && xcodebuild -runFirstLaunch'
+  run_sudo sh -c 'xcode-select -s /Applications/Xcode.app/Contents/Developer && xcodebuild -runFirstLaunch'
   ok "Xcode подключён."
 fi
 
@@ -60,7 +60,7 @@ else
   log "Нужно принять лицензию Apple. Откроется текст: листай пробелом, в конце согласись."
   warn "Команда через sudo: sudo xcodebuild -license"
   pause_for_human "Готов прочитать и принять лицензию Xcode? (потребуется пароль от Mac)"
-  sudo xcodebuild -license
+  run_sudo xcodebuild -license
 fi
 
 # --- Шаг 4. Докачать iOS-платформу и симулятор ------------------------------

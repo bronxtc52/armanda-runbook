@@ -81,12 +81,12 @@ log "Чтобы долгие задачи ИИ не прерывались и Ma
 warn_password
 pause_for_human "Сейчас понадобится пароль от Mac (sudo) для настройки сна и файрвола. Готов?"
 # Сон: от сети не засыпать 30 мин (дисплей 15), от батареи экономнее.
-sudo pmset -c sleep 30 displaysleep 15 disksleep 0 || warn "Не удалось задать pmset -c (можно пропустить)."
-sudo pmset -b sleep 10 displaysleep 5            || warn "Не удалось задать pmset -b (можно пропустить)."
-sudo pmset -a autorestart 1                      || true
+run_sudo pmset -c sleep 30 displaysleep 15 disksleep 0 || warn "Не удалось задать pmset -c (можно пропустить)."
+run_sudo pmset -b sleep 10 displaysleep 5            || warn "Не удалось задать pmset -b (можно пропустить)."
+run_sudo pmset -a autorestart 1                      || true
 # Файрвол + stealth.
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on  >/dev/null 2>&1 || warn "Файрвол: пропущено."
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on  >/dev/null 2>&1 || true
+run_sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on  >/dev/null 2>&1 || warn "Файрвол: пропущено."
+run_sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on  >/dev/null 2>&1 || true
 ok "Сон и файрвол настроены."
 note "Совет на каждый день: для долгой задачи запусти  caffeinate -i -t 7200  — Mac не уснёт 2 часа."
 
