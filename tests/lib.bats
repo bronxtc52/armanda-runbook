@@ -39,3 +39,21 @@ teardown() {
   run bash -c "source '$REPO_ROOT/scripts/lib.sh'; ask_yes_no 'proceed?' </dev/null"
   [ "$status" -eq 1 ]
 }
+
+@test "_runner_note: emits NOTE marker only under runner" {
+  # под раннером (RUNNER_PTY=1) печатает маркер @@RUNNER:NOTE:<текст>@@
+  run bash -c "RUNNER_PTY=1; source '$REPO_ROOT/scripts/lib.sh'; _runner_note 'password window'"
+  [ "$output" = "@@RUNNER:NOTE:password window@@" ]
+}
+
+@test "_runner_note: silent when not under runner" {
+  # без RUNNER_PTY обычный человек маркеров не видит
+  run bash -c "unset RUNNER_PTY; source '$REPO_ROOT/scripts/lib.sh'; _runner_note 'x'"
+  [ -z "$output" ]
+}
+
+@test "warn_password: emits NOTE before native dialog under askpass" {
+  # под раннером с SUDO_ASKPASS → есть NOTE-веха (тихий sudo больше не тихий)
+  run bash -c "RUNNER_PTY=1 SUDO_ASKPASS=/tmp/x; source '$REPO_ROOT/scripts/lib.sh'; warn_password"
+  [[ "$output" == *"@@RUNNER:NOTE:"* ]]
+}
