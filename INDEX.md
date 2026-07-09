@@ -9,7 +9,7 @@
 | 0 | `00-preflight/`   | ничего (осмотр) | карта: чип, macOS, что уже стоит | — |
 | 1 | `01-macbook-setup/` | настройка Mac (Finder, сон, клавиатура, безопасность, Dock) | `🎉 MacBook настроен` | пароль Mac (sudo); FileVault — вручную |
 | 2 | `02-foundation/`  | Command Line Tools, **Homebrew**, `tree` | `brew --version`, `tree --version` | пароль Mac; окно CLT |
-| 3 | `03-git-github/`  | **Git**, **GitHub CLI**, подпись Git, **защита от секретов** | `gh auth status` = вошёл, сторож секретов включён | вход в GitHub (браузер) |
+| 3 | `03-git-github/`  | **Git**, **GitHub CLI**, подпись Git, **сторож секретов**, **сторож команд** | `gh auth status` = вошёл, оба сторожа включены | вход в GitHub (браузер) |
 | 4 | `04-ai-helpers/`  | **Node/npm**, **Claude Code**, **Codex** | `claude` и `codex` запускаются | вход в Claude/ChatGPT |
 | 5 | `05-flutter/` ⭐ мобильный трек, по желанию | **Flutter**, **Xcode**, **Android Studio**, **CocoaPods** | `flutter doctor` выдаёт карту | App Store (Xcode); пароль Mac (sudo); Setup Wizard |
 | 6 | `06-first-win/` (нужна фаза 5) | учебное приложение + первый коммит | **счётчик на симуляторе** + push в GitHub | вход в GitHub уже есть |
@@ -46,6 +46,7 @@ bash 03-git-github/install-git.sh
 bash 03-git-github/install-gh.sh
 bash 03-git-github/setup-git-identity.sh
 bash 03-git-github/setup-secret-guard.sh    # сторож секретов (общий для всех проектов)
+bash 03-git-github/setup-command-guard.sh   # сторож команд (блок опасных команд агента)
 bash 03-git-github/verify.sh
 
 # Фаза 4 — ИИ-помощники
