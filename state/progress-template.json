@@ -1,5 +1,5 @@
 {
-  "_comment": "Шаблон отслеживания прогресса. Codex копирует его в state/progress.json и обновляет по ходу. Статусы: pending | in_progress | done | blocked.",
+  "_comment": "Шаблон отслеживания прогресса. Codex копирует его в state/progress.json и обновляет по ходу. Статусы: pending | in_progress | done | blocked | skipped (пропуск по выбору человека — фазы 05 и 06, см. INDEX.md).",
   "runbook_version": "0.1.0",
   "learner": {
     "name": null,
@@ -13,8 +13,8 @@
     { "id": "02-foundation",   "title": "Терминал + Homebrew",      "status": "pending", "notes": "" },
     { "id": "03-git-github", "title": "Git и GitHub",               "status": "pending", "notes": "" },
     { "id": "04-ai-helpers", "title": "Node + Claude Code + Codex", "status": "pending", "notes": "" },
-    { "id": "05-flutter",    "title": "Flutter + мобильные цеха",   "status": "pending", "notes": "" },
-    { "id": "06-first-win",  "title": "Первая победа",              "status": "pending", "notes": "" },
+    { "id": "05-flutter",    "title": "Flutter + мобильные цеха (по желанию)", "status": "pending", "notes": "" },
+    { "id": "06-first-win",  "title": "Первая победа (требует фазу 05)",       "status": "pending", "notes": "" },
     { "id": "07-checkpoint", "title": "Чек-поинт Фазы 0",           "status": "pending", "notes": "" }
   ],
   "appendix": [

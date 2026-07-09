@@ -11,10 +11,16 @@
 | 2 | `02-foundation/`  | Command Line Tools, **Homebrew**, `tree` | `brew --version`, `tree --version` | пароль Mac; окно CLT |
 | 3 | `03-git-github/`  | **Git**, **GitHub CLI**, подпись Git, **защита от секретов** | `gh auth status` = вошёл, сторож секретов включён | вход в GitHub (браузер) |
 | 4 | `04-ai-helpers/`  | **Node/npm**, **Claude Code**, **Codex** | `claude` и `codex` запускаются | вход в Claude/ChatGPT |
-| 5 | `05-flutter/`     | **Flutter**, **Xcode**, **Android Studio**, **CocoaPods** | `flutter doctor` выдаёт карту | App Store (Xcode); пароль Mac (sudo); Setup Wizard |
+| 5 | `05-flutter/` ⭐ по желанию | **Flutter**, **Xcode**, **Android Studio**, **CocoaPods** | `flutter doctor` выдаёт карту | App Store (Xcode); пароль Mac (sudo); Setup Wizard |
 | 6 | `06-first-win/`   | учебное приложение + первый коммит | **счётчик на симуляторе** + push в GitHub | вход в GitHub уже есть |
-| 7 | `07-checkpoint/`  | ничего (самопроверка) | 8 из 10 пунктов готовы → Фаза 1 курса | — |
+| 7 | `07-checkpoint/`  | ничего (самопроверка) | 8 из 10 пунктов готовы → Фаза 1 курса (без Flutter — 5 из 6) | — |
 | 99 | `99-appendix-backend/` | Python/venv, Railway | **по требованию** (Фаза 2), НЕ сейчас | — |
+
+> ⭐ **Фаза 5 — по желанию.** Flutter/Xcode/Android Studio нужны только для мобильной разработки.
+> Перед стартом фазы гид **предлагает** её и честно предупреждает: отказ = пропуск и фазы 6
+> «Первая победа» (она целиком на Flutter). Отказ фиксируется кнопкой `05-flutter/skip.sh`,
+> после чего маршрут идёт сразу в фазу 7 — чек-поинт сам считает укороченный список (5 из 6).
+> Передумал позже — просто запусти скрипты фазы 5: пропуск этому не мешает.
 
 ## Порядок команд (шпаргалка)
 
@@ -45,7 +51,8 @@ bash 04-ai-helpers/install-claude.sh
 bash 04-ai-helpers/install-codex.sh
 bash 04-ai-helpers/verify.sh
 
-# Фаза 5 — Flutter и мобильные цеха
+# Фаза 5 — Flutter и мобильные цеха (ПО ЖЕЛАНИЮ: сначала предложи; отказ ↓)
+# bash 05-flutter/skip.sh                    # человек отказался → пропуск 5 и 6, дальше фаза 7
 bash 05-flutter/install-flutter.sh
 bash 05-flutter/install-xcode-tools.sh
 bash 05-flutter/install-android-studio.sh

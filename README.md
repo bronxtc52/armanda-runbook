@@ -28,7 +28,10 @@ Homebrew · `tree` · Git · GitHub CLI (`gh`) · Node/npm · **Claude Code** ·
 2. Запускает `00-preflight/check-system.sh` — осмотр машины.
 3. Идёт по [`INDEX.md`](INDEX.md) фаза за фазой: `runbook.md` → скрипты → `verify.sh`.
 4. Ведёт прогресс в `state/progress.json`. Ошибки — по [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md).
-5. Финал — `07-checkpoint/self-check.sh` (8 из 10 → среда готова).
+5. Финал — `07-checkpoint/self-check.sh` (8 из 10 → среда готова; без Flutter — 5 из 6).
+
+> Фаза 5 (Flutter/Xcode/Android Studio) — **по желанию**: гид предлагает её и при отказе
+> (`05-flutter/skip.sh`) пропускает вместе с фазой 6 «Первая победа», идя сразу к чек-поинту.
 
 ## Структура
 ```
