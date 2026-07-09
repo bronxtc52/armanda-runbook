@@ -7,9 +7,11 @@
 # ЧТО МЕНЯЕТ НА МАШИНЕ: ничего (только проверка).
 # НУЖЕН ЛИ ПАРОЛЬ/SUDO: нет.   СКОЛЬКО ВРЕМЕНИ: 1–2 минуты (flutter doctor).
 #
-# По курсу: готов к Фазе 1, если выполнено 8 из 10 пунктов.
-# Если человек ОТКАЗАЛСЯ от Flutter (05-flutter/skip.sh) — мобильные пункты
-# не считаются: чек-лист укорачивается до 6, порог — 5 из 6.
+# Чек-лист собирается из блоков по выбранным трекам:
+#   база (6 пунктов) — всегда;
+#   мобильный трек (4) — если Flutter не пропущен через 05-flutter/skip.sh;
+#   веб-трек (4) — если начата фаза 05w (Netlify) или создан учебный сайт.
+# Порог ~80%: только база — 5 из 6; база+один трек — 8 из 10; всё — 11 из 14.
 # ============================================================================
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -17,20 +19,33 @@ source "$SCRIPT_DIR/../scripts/lib.sh"
 
 ensure_brew_in_path
 APP_DIR="$HOME/vibecoding/vibecoding_first_app"
+SITE_DIR="$HOME/vibecoding/vibecoding_first_site"
+PROGRESS_LOG="$SCRIPT_DIR/../state/progress.log"
 
 # Пропущен ли Flutter по выбору человека? Маркер ставит 05-flutter/skip.sh.
 # Если Flutter потом всё же поставили — маркер игнорируем и считаем полный список.
 flutter_skipped=0
-if grep -Fqx "05-flutter:skipped" "$SCRIPT_DIR/../state/progress.log" 2>/dev/null \
+if grep -Fqx "05-flutter:skipped" "$PROGRESS_LOG" 2>/dev/null \
    && ! has_cmd flutter; then
   flutter_skipped=1
 fi
 
-if [ "$flutter_skipped" = "1" ]; then
-  pass=0; total=6; threshold=5
-else
-  pass=0; total=10; threshold=8
+# Выбран ли веб-трек? Маркер ставит 05w-netlify/install-netlify.sh;
+# подстраховка — существующий учебный сайт.
+web_track=0
+if grep -Fqx "05w-netlify:installed" "$PROGRESS_LOG" 2>/dev/null \
+   || [ -f "$SITE_DIR/index.html" ]; then
+  web_track=1
 fi
+
+pass=0; total=6
+[ "$flutter_skipped" = "0" ] && total=$((total+4))
+[ "$web_track" = "1" ]       && total=$((total+4))
+case "$total" in
+  6)  threshold=5 ;;
+  10) threshold=8 ;;
+  *)  threshold=11 ;;
+esac
 
 check() { # check "описание" <команда-проверки...>
   local desc="$1"; shift
@@ -57,6 +72,13 @@ else
   check "Учебный проект существует"                  test -f "$APP_DIR/pubspec.yaml"
   check "В проекте есть коммит (весь проект под Git)" bash -c "git -C '$APP_DIR' rev-parse HEAD && [ \"\$(git -C '$APP_DIR' ls-files | wc -l)\" -gt 20 ]"
   check "Проект привязан к GitHub"                    bash -c "git -C '$APP_DIR' remote get-url origin"
+fi
+
+if [ "$web_track" = "1" ]; then
+  check "Netlify CLI доступен (netlify)"              command -v netlify
+  check "Учебный сайт существует"                     test -f "$SITE_DIR/index.html"
+  check "В сайте есть коммит и привязка к GitHub"     bash -c "git -C '$SITE_DIR' rev-parse HEAD && git -C '$SITE_DIR' remote get-url origin"
+  check "Сайт публиковался на Netlify"                test -f "$SITE_DIR/.netlify/state.json"
 fi
 
 step "Итог"

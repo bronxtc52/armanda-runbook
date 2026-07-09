@@ -13,8 +13,10 @@
     { "id": "02-foundation",   "title": "Терминал + Homebrew",      "status": "pending", "notes": "" },
     { "id": "03-git-github", "title": "Git и GitHub",               "status": "pending", "notes": "" },
     { "id": "04-ai-helpers", "title": "Node + Claude Code + Codex", "status": "pending", "notes": "" },
-    { "id": "05-flutter",    "title": "Flutter + мобильные цеха (по желанию)", "status": "pending", "notes": "" },
-    { "id": "06-first-win",  "title": "Первая победа (требует фазу 05)",       "status": "pending", "notes": "" },
+    { "id": "05-flutter",    "title": "Мобильный трек: Flutter + цеха (по желанию)",  "status": "pending", "notes": "" },
+    { "id": "06-first-win",  "title": "Мобильная победа (требует фазу 05)",           "status": "pending", "notes": "" },
+    { "id": "05w-netlify",   "title": "Веб-трек: Netlify CLI + вход (по желанию)",    "status": "pending", "notes": "" },
+    { "id": "06w-first-site","title": "Веб-победа: сайт по ссылке (требует 05w)",     "status": "pending", "notes": "" },
     { "id": "07-checkpoint", "title": "Чек-поинт Фазы 0",           "status": "pending", "notes": "" }
   ],
   "appendix": [

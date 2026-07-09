@@ -19,7 +19,7 @@ Codex сам подхватит инструкцию проекта из [`AGENT
 
 ## Что делается
 Сначала **настройка самого MacBook** (Finder, режим сна, клавиатура, безопасность, Dock — материал «настройка MacBook»), затем установка стека курса (взят из реальных уроков Фазы 0):
-Homebrew · `tree` · Git · GitHub CLI (`gh`) · Node/npm · **Claude Code** · **Codex** · Flutter · Xcode · Android Studio · CocoaPods · iOS Simulator → готовое приложение + первый коммит/push.
+Homebrew · `tree` · Git · GitHub CLI (`gh`) · Node/npm · **Claude Code** · **Codex** · затем по выбору: **мобильный трек** (Flutter · Xcode · Android Studio · CocoaPods · iOS Simulator → приложение на симуляторе + коммит/push) и/или **веб-трек** (**Netlify CLI** → сайт по живой ссылке + коммит/push).
 
 > Дополнительные инструменты Фазы 2 (Python/venv, Railway) — в [`99-appendix-backend/`](99-appendix-backend/), **по требованию**, не в первом маршруте.
 
@@ -28,10 +28,11 @@ Homebrew · `tree` · Git · GitHub CLI (`gh`) · Node/npm · **Claude Code** ·
 2. Запускает `00-preflight/check-system.sh` — осмотр машины.
 3. Идёт по [`INDEX.md`](INDEX.md) фаза за фазой: `runbook.md` → скрипты → `verify.sh`.
 4. Ведёт прогресс в `state/progress.json`. Ошибки — по [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md).
-5. Финал — `07-checkpoint/self-check.sh` (8 из 10 → среда готова; без Flutter — 5 из 6).
+5. Финал — `07-checkpoint/self-check.sh` (порог по выбранным трекам: 5/6, 8/10 или 11/14).
 
-> Фаза 5 (Flutter/Xcode/Android Studio) — **по желанию**: гид предлагает её и при отказе
-> (`05-flutter/skip.sh`) пропускает вместе с фазой 6 «Первая победа», идя сразу к чек-поинту.
+> После фазы 4 — **развилка треков по желанию**: **мобильный** (5→6: Flutter/Xcode, счётчик на
+> симуляторе) и/или **веб** (5w→6w: Netlify, сайт по живой ссылке). Гид предлагает, человек
+> выбирает; отказ от Flutter — `05-flutter/skip.sh`. Чек-поинт сам собирает чек-лист по трекам.
 
 ## Структура
 ```
@@ -45,8 +46,11 @@ course-setup-runbook/
   02-foundation/                  # Homebrew + tree
   03-git-github/                  # Git + GitHub
   04-ai-helpers/                  # Node + Claude Code + Codex
-  05-flutter/                     # Flutter + Xcode + Android Studio + CocoaPods
-  06-first-win/                   # готовое приложение + первый коммит  ← видимая победа
+  05-flutter/                     # мобильный трек: Flutter + Xcode + Android Studio + CocoaPods
+  06-first-win/                   # мобильная победа: приложение на симуляторе + первый коммит
+  05w-netlify/                    # веб-трек: Netlify CLI + вход (издательство сайтов)
+  06w-first-site/                 # веб-победа: сайт по живой ссылке + AGENTS.md в проекте
+  templates/project-AGENTS.md     # правила ИИ-агента для проектов новичка (commit→push→deploy)
   07-checkpoint/                  # самопроверка Фазы 0
   99-appendix-backend/            # Python/venv + Railway (по требованию)
 ```
