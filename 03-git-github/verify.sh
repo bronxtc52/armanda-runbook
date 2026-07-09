@@ -47,6 +47,18 @@ if [ -n "$(git config --global core.excludesfile || true)" ]; then
   ok "Секретные файлы (.env и др.) игнорируются во всех проектах."
 else warn "Глобальный список секретных файлов не подключён (не критично)."; fi
 
+# --- Сторож команд (setup-command-guard.sh) ---
+GUARD="$HOME/.vibecoding/hooks/command-guard.py"
+if [ -f "$GUARD" ] && python3 "$GUARD" --selftest >/dev/null 2>&1; then
+  if grep -q "command-guard.py" "$HOME/.claude/settings.json" 2>/dev/null; then
+    ok "Сторож команд включён (самотест пройден, подключён к Claude Code)."
+  else
+    warn "Сторож команд установлен, но не подключён — запусти setup-command-guard.sh ещё раз."
+  fi
+else
+  err "Сторож команд не установлен (03-git-github/setup-command-guard.sh)."; fail=1
+fi
+
 if [ "$fail" -eq 0 ]; then
   ok "Фаза 03 пройдена. Дальше — 04-ai-helpers/."
   mark_step "03-git-github:verified"
